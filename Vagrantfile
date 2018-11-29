@@ -1,5 +1,5 @@
 Vagrant.configure("2") do |config|
-  config.vm.provision "shell", inline: "sudo dnf install python2 python-simplejson python-dnf libselinux-python -y -q"
+  # config.vm.provision "shell", inline: "sudo dnf install python2 python-simplejson python-dnf libselinux-python -y -q"
   config.vm.synced_folder ".", "/vagrant", disabled: true
   config.vm.box_check_update = false
 
@@ -10,7 +10,7 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.define "pentest" do |pentest|
-    pentest.vm.box = "fedora/25-cloud-base"
+    pentest.vm.box = "fedora/28-cloud-base"
     pentest.vm.hostname = "pentest"
     pentest.vm.network "private_network", ip: "10.0.8.102"
     pentest.ssh.insert_key = false
@@ -18,13 +18,18 @@ Vagrant.configure("2") do |config|
     # pentest.vm.provision 'shell', path: 'add_logo_to_profile.sh'
   end
 
-  config.vm.define "victim" do |victim|
-    victim.vm.box = "fedora/25-cloud-base"
-    victim.vm.hostname = "victim"
-    victim.vm.network "private_network", ip: "10.0.8.103"
-    victim.ssh.insert_key = false
-    # victim.vm.provision "file", source: "victim_logo.txt", destination: "/home/vagrant/logo.txt"
-    # victim.vm.provision 'shell', path: 'add_logo_to_profile.sh'
+  config.vm.define "target1" do |target1|
+    target1.vm.box = "fedora/28-cloud-base"
+    target1.vm.hostname = "target1"
+    target1.vm.network "private_network", ip: "10.0.8.103"
+    target1.ssh.insert_key = false
+  end
+
+  config.vm.define "target2" do |target2|
+    target2.vm.box = "fedora/28-cloud-base"
+    target2.vm.hostname = "target2"
+    target2.vm.network "private_network", ip: "10.0.8.104"
+    target2.ssh.insert_key = false
   end
 
 end
