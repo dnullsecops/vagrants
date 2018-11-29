@@ -1,5 +1,5 @@
 Vagrant.configure("2") do |config|
-  config.vm.provision "shell", inline: "sudo dnf install python2 python-simplejson python-dnf libselinux-python -y -q"
+  # config.vm.provision "shell", inline: "sudo dnf install python2 python-simplejson python-dnf libselinux-python -y -q"
   config.vm.synced_folder ".", "/vagrant", disabled: true
   config.vm.box_check_update = false
 
@@ -7,6 +7,15 @@ Vagrant.configure("2") do |config|
     vb.gui = false
     vb.memory = 512
     vb.cpus = 1
+  end
+
+  config.vm.define "archlinux" do |archlinux|
+    archlinux.vm.box = "archlinux/archlinux"
+    archlinux.vm.hostname = "archlinux"
+    archlinux.vm.network "private_network", ip: "10.0.8.104"
+    archlinux.ssh.insert_key = false
+    # archlinux.vm.provision "file", source: "archlinux_logo.txt", destination: "/home/vagrant/logo.txt"
+    # archlinux.vm.provision 'shell', path: 'add_logo_to_profile.sh'
   end
 
   config.vm.define "pentest" do |pentest|
